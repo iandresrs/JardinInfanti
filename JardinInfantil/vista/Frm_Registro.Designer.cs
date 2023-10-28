@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             panel1 = new System.Windows.Forms.Panel();
-            btn_eliminar = new System.Windows.Forms.Button();
             btn_limpiar = new System.Windows.Forms.Button();
             btn_guardar = new System.Windows.Forms.Button();
             rd_no = new System.Windows.Forms.RadioButton();
@@ -37,7 +36,7 @@
             label7 = new System.Windows.Forms.Label();
             dt_fecha = new System.Windows.Forms.DateTimePicker();
             label6 = new System.Windows.Forms.Label();
-            comboBox1 = new System.Windows.Forms.ComboBox();
+            box_estrato = new System.Windows.Forms.ComboBox();
             label5 = new System.Windows.Forms.Label();
             box_condicion = new System.Windows.Forms.ComboBox();
             label4 = new System.Windows.Forms.Label();
@@ -46,19 +45,14 @@
             txt_numRegistro = new System.Windows.Forms.TextBox();
             label2 = new System.Windows.Forms.Label();
             label1 = new System.Windows.Forms.Label();
-            dataGridView1 = new System.Windows.Forms.DataGridView();
-            tbIdRegistro = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            tbNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            tdEspecialidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            tdEstrato = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            tdFechaNacimiento = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            tdTerapia = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            btn_eliminar = new System.Windows.Forms.Button();
+            dgvEstudiantes = new System.Windows.Forms.DataGridView();
             bnt_cerrarRegistro = new System.Windows.Forms.Button();
             txt_consulta = new System.Windows.Forms.TextBox();
             panel2 = new System.Windows.Forms.Panel();
             btn_Consultar = new System.Windows.Forms.Button();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvEstudiantes).BeginInit();
             panel2.SuspendLayout();
             SuspendLayout();
             // 
@@ -72,7 +66,7 @@
             panel1.Controls.Add(label7);
             panel1.Controls.Add(dt_fecha);
             panel1.Controls.Add(label6);
-            panel1.Controls.Add(comboBox1);
+            panel1.Controls.Add(box_estrato);
             panel1.Controls.Add(label5);
             panel1.Controls.Add(box_condicion);
             panel1.Controls.Add(label4);
@@ -83,21 +77,8 @@
             panel1.Controls.Add(label1);
             panel1.Location = new System.Drawing.Point(31, 58);
             panel1.Name = "panel1";
-            panel1.Size = new System.Drawing.Size(316, 558);
+            panel1.Size = new System.Drawing.Size(325, 558);
             panel1.TabIndex = 0;
-            // 
-            // btn_eliminar
-            // 
-            btn_eliminar.BackColor = System.Drawing.Color.DodgerBlue;
-            btn_eliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            btn_eliminar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            btn_eliminar.ForeColor = System.Drawing.Color.White;
-            btn_eliminar.Location = new System.Drawing.Point(456, 11);
-            btn_eliminar.Name = "btn_eliminar";
-            btn_eliminar.Size = new System.Drawing.Size(160, 34);
-            btn_eliminar.TabIndex = 16;
-            btn_eliminar.Text = "Eliminar";
-            btn_eliminar.UseVisualStyleBackColor = false;
             // 
             // btn_limpiar
             // 
@@ -111,6 +92,7 @@
             btn_limpiar.TabIndex = 15;
             btn_limpiar.Text = "Limpiar";
             btn_limpiar.UseVisualStyleBackColor = false;
+            btn_limpiar.Click += btn_limpiar_Click;
             // 
             // btn_guardar
             // 
@@ -124,6 +106,7 @@
             btn_guardar.TabIndex = 14;
             btn_guardar.Text = "Guardar";
             btn_guardar.UseVisualStyleBackColor = false;
+            btn_guardar.Click += btn_guardar_Click;
             // 
             // rd_no
             // 
@@ -172,15 +155,15 @@
             label6.TabIndex = 9;
             label6.Text = "Fecha de Nacimiento: ";
             // 
-            // comboBox1
+            // box_estrato
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6" });
-            comboBox1.Location = new System.Drawing.Point(29, 322);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new System.Drawing.Size(264, 23);
-            comboBox1.TabIndex = 8;
-            comboBox1.Text = "Seleccione";
+            box_estrato.FormattingEnabled = true;
+            box_estrato.Items.AddRange(new object[] { "1", "2", "3", "4", "5", "6" });
+            box_estrato.Location = new System.Drawing.Point(29, 322);
+            box_estrato.Name = "box_estrato";
+            box_estrato.Size = new System.Drawing.Size(264, 23);
+            box_estrato.TabIndex = 8;
+            box_estrato.Text = "Seleccione";
             // 
             // label5
             // 
@@ -233,6 +216,8 @@
             txt_numRegistro.Name = "txt_numRegistro";
             txt_numRegistro.Size = new System.Drawing.Size(264, 23);
             txt_numRegistro.TabIndex = 2;
+            txt_numRegistro.TextChanged += txt_numRegistro_TextChanged;
+            txt_numRegistro.KeyPress += txt_numRegistro_KeyPress;
             // 
             // label2
             // 
@@ -247,58 +232,39 @@
             // 
             label1.AutoSize = true;
             label1.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            label1.Location = new System.Drawing.Point(23, 20);
+            label1.Location = new System.Drawing.Point(2, 16);
             label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(270, 37);
+            label1.Size = new System.Drawing.Size(318, 37);
             label1.TabIndex = 0;
-            label1.Text = "Registro de Usuario";
+            label1.Text = "Registro de Estudiantes";
             // 
-            // dataGridView1
+            // btn_eliminar
             // 
-            dataGridView1.BackgroundColor = System.Drawing.Color.White;
-            dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { tbIdRegistro, tbNombre, tdEspecialidad, tdEstrato, tdFechaNacimiento, tdTerapia });
-            dataGridView1.Location = new System.Drawing.Point(385, 58);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new System.Drawing.Size(644, 475);
-            dataGridView1.TabIndex = 1;
+            btn_eliminar.BackColor = System.Drawing.Color.DodgerBlue;
+            btn_eliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            btn_eliminar.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            btn_eliminar.ForeColor = System.Drawing.Color.White;
+            btn_eliminar.Location = new System.Drawing.Point(456, 11);
+            btn_eliminar.Name = "btn_eliminar";
+            btn_eliminar.Size = new System.Drawing.Size(160, 34);
+            btn_eliminar.TabIndex = 16;
+            btn_eliminar.Text = "Eliminar";
+            btn_eliminar.UseVisualStyleBackColor = false;
+            btn_eliminar.Click += btn_eliminar_Click;
             // 
-            // tbIdRegistro
+            // dgvEstudiantes
             // 
-            tbIdRegistro.HeaderText = "Numero Registro";
-            tbIdRegistro.Name = "tbIdRegistro";
-            tbIdRegistro.ReadOnly = true;
-            // 
-            // tbNombre
-            // 
-            tbNombre.HeaderText = "Nombre";
-            tbNombre.Name = "tbNombre";
-            tbNombre.ReadOnly = true;
-            // 
-            // tdEspecialidad
-            // 
-            tdEspecialidad.HeaderText = "Condicion Especial";
-            tdEspecialidad.Name = "tdEspecialidad";
-            tdEspecialidad.ReadOnly = true;
-            // 
-            // tdEstrato
-            // 
-            tdEstrato.HeaderText = "Estrato";
-            tdEstrato.Name = "tdEstrato";
-            tdEstrato.ReadOnly = true;
-            // 
-            // tdFechaNacimiento
-            // 
-            tdFechaNacimiento.HeaderText = "Fecha Nacimiento";
-            tdFechaNacimiento.Name = "tdFechaNacimiento";
-            tdFechaNacimiento.ReadOnly = true;
-            // 
-            // tdTerapia
-            // 
-            tdTerapia.HeaderText = "Terapia";
-            tdTerapia.Name = "tdTerapia";
-            tdTerapia.ReadOnly = true;
+            dgvEstudiantes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            dgvEstudiantes.BackgroundColor = System.Drawing.Color.White;
+            dgvEstudiantes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvEstudiantes.Location = new System.Drawing.Point(385, 58);
+            dgvEstudiantes.Name = "dgvEstudiantes";
+            dgvEstudiantes.ReadOnly = true;
+            dgvEstudiantes.RowHeadersVisible = false;
+            dgvEstudiantes.RowTemplate.Height = 25;
+            dgvEstudiantes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            dgvEstudiantes.Size = new System.Drawing.Size(772, 475);
+            dgvEstudiantes.TabIndex = 1;
             // 
             // bnt_cerrarRegistro
             // 
@@ -306,7 +272,7 @@
             bnt_cerrarRegistro.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             bnt_cerrarRegistro.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             bnt_cerrarRegistro.ForeColor = System.Drawing.Color.White;
-            bnt_cerrarRegistro.Location = new System.Drawing.Point(991, 6);
+            bnt_cerrarRegistro.Location = new System.Drawing.Point(1100, 12);
             bnt_cerrarRegistro.Name = "bnt_cerrarRegistro";
             bnt_cerrarRegistro.Size = new System.Drawing.Size(57, 30);
             bnt_cerrarRegistro.TabIndex = 2;
@@ -345,16 +311,17 @@
             btn_Consultar.TabIndex = 17;
             btn_Consultar.Text = "Consultar";
             btn_Consultar.UseVisualStyleBackColor = false;
+            btn_Consultar.Click += btn_Consultar_Click;
             // 
             // Frm_Registro
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.White;
-            ClientSize = new System.Drawing.Size(1057, 643);
+            ClientSize = new System.Drawing.Size(1185, 643);
             Controls.Add(panel2);
             Controls.Add(bnt_cerrarRegistro);
-            Controls.Add(dataGridView1);
+            Controls.Add(dgvEstudiantes);
             Controls.Add(panel1);
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             MaximizeBox = false;
@@ -363,7 +330,7 @@
             Text = "Frm_Registro";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvEstudiantes).EndInit();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ResumeLayout(false);
@@ -373,7 +340,7 @@
 
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox box_estrato;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox box_condicion;
         private System.Windows.Forms.Label label4;
@@ -388,13 +355,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.DateTimePicker dt_fecha;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tbIdRegistro;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tbNombre;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tdEspecialidad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tdEstrato;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tdFechaNacimiento;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tdTerapia;
+        private System.Windows.Forms.DataGridView dgvEstudiantes;
         private System.Windows.Forms.Button bnt_cerrarRegistro;
         private System.Windows.Forms.Button btn_eliminar;
         private System.Windows.Forms.TextBox txt_consulta;
